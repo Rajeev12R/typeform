@@ -15,3 +15,43 @@ The main challenge is not basic CRUD operations; it is **state synchronization, 
 ### 3. Abstracted Creator Authentication
 * **Default Creator Injection:** Uses a central dependency (`get_current_creator()`) returning a seeded `User ID: 1`. 
 * **Zero Refactoring Needed Later:** In production, this dependency can be updated to handle JWT/OAuth authentication without changing any API routes or business logic.
+
+### Architecture:
+```
+┌──────────────────────────────────────────────┐
+│                  FRONTEND                    │
+│               Next.js + TS                   │
+│                                              │
+│ Dashboard                                    │
+│ Form Builder                                 │
+│ Preview                                      │
+│ Public Form                                  │
+│ Results                                      │
+└──────────────────────┬───────────────────────┘
+                       │
+                    REST API
+                       │
+┌──────────────────────▼───────────────────────┐
+│                  BACKEND                     │
+│                FastAPI + Python              │
+│                                              │
+│ Form APIs                                    │
+│ Question APIs                                │
+│ Publish APIs                                 │
+│ Response APIs                                │
+│ Validation                                   │
+│ Statistics                                   │
+└──────────────────────┬───────────────────────┘
+                       │
+┌──────────────────────▼───────────────────────┐
+│                  DATABASE                    │
+│                   SQLite                     │
+│                                              │
+│ Users                                        │
+│ Forms                                        │
+│ Questions                                    │
+│ Question Options                             │
+│ Responses                                    │
+│ Answers                                      │
+└──────────────────────────────────────────────┘
+```
