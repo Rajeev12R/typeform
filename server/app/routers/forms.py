@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.form import ( FormCreate, FormDetail, FormSummary, FormUpdate)
 from app.services import form_service
+from app.dependencies import get_current_user
+from app.models.user import User
 
 
 router = APIRouter(
@@ -18,8 +20,9 @@ router = APIRouter(
 )
 def list_forms(
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
-    forms = form_service.get_forms(db)
+    forms = form_service.get_forms(db, current_user.id)
 
     return [
         FormSummary(
@@ -42,10 +45,12 @@ def list_forms(
 def get_form(
     form_id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return form_service.get_form_by_id(
         db,
         form_id,
+        current_user.id,
     )
 
 @router.post(
@@ -56,10 +61,12 @@ def get_form(
 def create_form(
     data: FormCreate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return form_service.create_form(
         db,
         data,
+        current_user.id,
     )
 
 @router.patch(
@@ -70,11 +77,13 @@ def update_form(
     form_id: int,
     data: FormUpdate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return form_service.update_form(
         db,
         form_id,
         data,
+        current_user.id,
     )
 
 @router.delete(
@@ -84,10 +93,12 @@ def update_form(
 def delete_form(
     form_id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     form_service.delete_form(
         db,
         form_id,
+        current_user.id,
     )
 
 @router.post(
@@ -97,10 +108,12 @@ def delete_form(
 def publish_form(
     form_id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return form_service.publish_form(
         db,
         form_id,
+        current_user.id,
     )
 
 @router.post(
@@ -110,10 +123,12 @@ def publish_form(
 def unpublish_form(
     form_id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return form_service.unpublish_form(
         db,
         form_id,
+        current_user.id,
     )
 
 @router.post(
@@ -124,8 +139,10 @@ def unpublish_form(
 def duplicate_form(
     form_id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return form_service.duplicate_form(
         db,
         form_id,
+        current_user.id,
     )

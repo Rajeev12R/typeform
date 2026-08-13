@@ -38,7 +38,7 @@ class ResponseListItem(BaseModel):
 
 class StatisticsItem(BaseModel):
     question_id: int
-    question_title: str
+    question_title: str | None = None
     question_type: str
     total_answers: int
     distribution: dict[str, int]

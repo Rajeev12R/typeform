@@ -32,7 +32,7 @@ class Question(Base):
     )
     title: Mapped[str] = mapped_column(
         String(500),
-        nullable=False,
+        nullable=True,
     )
     description: Mapped[str | None] = mapped_column(
         Text,

@@ -1,7 +1,6 @@
 from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
-from app.config import DEFAULT_CREATOR_ID
 from app.models.form import Form
 from app.models.question import (Question,QuestionOption,QuestionType)
 from app.schemas.question import (QuestionCreate,QuestionUpdate)
@@ -14,11 +13,12 @@ OPTION_QUESTION_TYPES = {
 def get_form(
     db: Session,
     form_id: int,
+    user_id: int,
 ) -> Form:
 
     statement = select(Form).where(
         Form.id == form_id,
-        Form.user_id == DEFAULT_CREATOR_ID,
+        Form.user_id == user_id,
     )
 
     form = db.scalar(statement)
@@ -35,12 +35,13 @@ def get_form(
 def get_question(
     db: Session,
     question_id: int,
+    user_id: int,
 ) -> Question:
 
     statement = (
         select(Question)
         .join(Form, Question.form_id == Form.id)
-        .where(Question.id == question_id, Form.user_id == DEFAULT_CREATOR_ID)
+        .where(Question.id == question_id, Form.user_id == user_id)
         .options(
             selectinload(Question.options)
         )
@@ -86,9 +87,10 @@ def create_question(
     db: Session,
     form_id: int,
     data: QuestionCreate,
+    user_id: int,
 ) -> Question:
 
-    form = get_form(db, form_id)
+    form = get_form(db, form_id, user_id)
 
     validate_question_data(
         data.type,
@@ -108,7 +110,11 @@ def create_question(
     question = Question(
         form_id=form.id,
         type=data.type,
-        title=data.title.strip(),
+        title=(
+            data.title.strip()
+            if data.title
+            else None
+        ),
         description=(
             data.description.strip()
             if data.description
@@ -138,17 +144,20 @@ def create_question(
     return get_question(
         db,
         question.id,
+        user_id,
     )
 
 def update_question(
     db: Session,
     question_id: int,
     data: QuestionUpdate,
+    user_id: int,
 ) -> Question:
 
     question = get_question(
         db,
         question_id,
+        user_id,
     )
     new_type = (
         data.type
@@ -167,8 +176,9 @@ def update_question(
     if data.type is not None:
         question.type = data.type
 
-    if data.title is not None:
-        question.title = data.title.strip()
+    update_data = data.model_dump(exclude_unset=True)
+    if "title" in update_data:
+        question.title = data.title.strip() if data.title else None
 
     if data.description is not None:
         question.description = (
@@ -199,16 +209,19 @@ def update_question(
     return get_question(
         db,
         question.id,
+        user_id,
     )
 
 def delete_question(
     db: Session,
     question_id: int,
+    user_id: int,
 ) -> None:
 
     question = get_question(
         db,
         question_id,
+        user_id,
     )
 
     form_id = question.form_id
@@ -234,9 +247,10 @@ def reorder_questions(
     db: Session,
     form_id: int,
     question_ids: list[int],
+    user_id: int,
 ) -> list[Question]:
 
-    get_form(db, form_id)
+    get_form(db, form_id, user_id)
 
     questions = db.scalars(
         select(Question)

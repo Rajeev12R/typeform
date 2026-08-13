@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.question import (QuestionCreate,QuestionReorder,QuestionResponse,QuestionUpdate)
 from app.services import question_service
+from app.dependencies import get_current_user
+from app.models.user import User
 
 router = APIRouter(
     prefix="/api",
@@ -18,11 +20,13 @@ def create_question(
     form_id: int,
     data: QuestionCreate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return question_service.create_question(
         db,
         form_id,
         data,
+        current_user.id,
     )
 
 @router.patch(
@@ -33,11 +37,13 @@ def update_question(
     question_id: int,
     data: QuestionUpdate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return question_service.update_question(
         db,
         question_id,
         data,
+        current_user.id,
     )
 
 @router.delete(
@@ -47,10 +53,12 @@ def update_question(
 def delete_question(
     question_id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     question_service.delete_question(
         db,
         question_id,
+        current_user.id,
     )
 
 @router.patch(
@@ -61,9 +69,11 @@ def reorder_questions(
     form_id: int,
     data: QuestionReorder,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return question_service.reorder_questions(
         db,
         form_id,
         data.question_ids,
+        current_user.id,
     )

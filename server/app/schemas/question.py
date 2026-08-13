@@ -5,7 +5,6 @@ from app.models.question import QuestionType
 class QuestionOptionCreate(BaseModel):
     label: str = Field(
         ...,
-        min_length=1,
         max_length=255,
     )
 
@@ -18,9 +17,8 @@ class QuestionOptionResponse(BaseModel):
 
 class QuestionCreate(BaseModel):
     type: QuestionType
-    title: str = Field(
-        ...,
-        min_length=1,
+    title: str | None = Field(
+        default=None,
         max_length=500,
     )
     description: str | None = None
@@ -31,7 +29,6 @@ class QuestionUpdate(BaseModel):
     type: QuestionType | None = None
     title: str | None = Field(
         default=None,
-        min_length=1,
         max_length=500,
     )
     description: str | None = None
@@ -41,7 +38,7 @@ class QuestionUpdate(BaseModel):
 class QuestionResponse(BaseModel):
     id: int
     type: QuestionType
-    title: str
+    title: str | None
     description: str | None
     required: bool
     order: int
