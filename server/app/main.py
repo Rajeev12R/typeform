@@ -9,7 +9,14 @@ from app.routers.statistics import router as statistics_router
 from app.routers.responses import router as response_router
 from app.routers.auth import router as auth_router
 
+try:
+    from seed import seed_database
+except ImportError:
+    seed_database = None
+
 Base.metadata.create_all(bind=engine)
+if seed_database:
+    seed_database()
 
 app = FastAPI(
     title="Typeform Clone API",
