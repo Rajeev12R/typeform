@@ -45,7 +45,7 @@ class QuestionResponse(BaseModel):
     description: str | None
     required: bool
     order: int
-    options: list[QuestionOptionCreate] = Field(default_factory=list)
+    options: list[QuestionOptionResponse] = Field(default_factory=list)
 
     model_config = ConfigDict(from_attributes=True)
 
