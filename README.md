@@ -56,7 +56,9 @@ cd client
 npm install
 npm run dev
 ```
-The frontend will run on `http://localhost:3000`. Head there in your browser to check it out!
+The frontend will run on `http://localhost:3000`. Head there in your browser to check it out! 
+
+**Important:** On the login screen, enter **`user@gmail.com`** to access the pre-seeded account and see the generated forms!
 
 ## Architecture & Database
 
@@ -71,7 +73,7 @@ The frontend will run on `http://localhost:3000`. Head there in your browser to 
 
 ## Assumptions & Notes
 
-- Authentication is currently mocked with a default creator user to keep the focus on the core builder and respondent flow.
+- Authentication is simplified as per the assignment constraints (assume a default logged-in creator). You can log in using the seed email `user@gmail.com` to keep the focus on the core builder and respondent flow.
 - A few advanced settings like Logic Jumps and certain integrations are present in the UI to match the "Typeform feel" but are treated as mocked "Coming Soon" placeholders.
 - The respondent flow does not require any login, making the published forms truly public.
 
