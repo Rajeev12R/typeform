@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
 from app.models.form import FormStatus
+from app.schemas.question import QuestionResponse
 
 class FormCreate(BaseModel):
     title: str = Field(
@@ -29,4 +30,6 @@ class FormSummary(BaseModel):
 
 
 class FormDetail(FormSummary):
-    pass
+    questions: list[QuestionResponse] = Field(
+        default_factory=list
+    )
