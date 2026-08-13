@@ -115,3 +115,17 @@ def unpublish_form(
         db,
         form_id,
     )
+
+@router.post(
+    "/{form_id}/duplicate",
+    response_model=FormDetail,
+    status_code=status.HTTP_201_CREATED,
+)
+def duplicate_form(
+    form_id: int,
+    db: Session = Depends(get_db),
+):
+    return form_service.duplicate_form(
+        db,
+        form_id,
+    )

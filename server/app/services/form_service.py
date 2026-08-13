@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 from app.config import DEFAULT_CREATOR_ID
 from app.models.form import Form, FormStatus
-from app.models.question import Question
+from app.models.question import (Question, QuestionOption)
 from app.models.response import Response
 from app.schemas.form import FormCreate, FormUpdate
 
@@ -118,3 +118,52 @@ def unpublish_form(
     db.refresh(form)
 
     return form
+
+def duplicate_form(
+    db: Session,
+    form_id: int,
+) -> Form:
+
+    original_form = get_form_by_id(
+        db,
+        form_id,
+    )
+    duplicated_form = Form(
+        user_id=DEFAULT_CREATOR_ID,
+        title=f"{original_form.title} Copy",
+        status=FormStatus.DRAFT,
+        public_id=generate_public_id(),
+    )
+    db.add(duplicated_form)
+    db.flush()
+
+    for question in original_form.questions:
+
+        duplicated_question = Question(
+            form_id=duplicated_form.id,
+            type=question.type,
+            title=question.title,
+            description=question.description,
+            required=question.required,
+            order=question.order,
+        )
+
+        db.add(duplicated_question)
+        db.flush()
+
+        for option in question.options:
+
+            duplicated_option = QuestionOption(
+                question_id=duplicated_question.id,
+                label=option.label,
+                order=option.order,
+            )
+
+            db.add(duplicated_option)
+
+    db.commit()
+
+    return get_form_by_id(
+        db,
+        duplicated_form.id,
+    )
