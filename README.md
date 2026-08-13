@@ -58,7 +58,7 @@ npm run dev
 ```
 The frontend will run on `http://localhost:3000`. Head there in your browser to check it out! 
 
-**Important:** On the login screen, enter **`user@gmail.com`** to access the pre-seeded account and see the generated forms!
+**Important:** On the login screen, enter **`user@gmail.com`** to access the pre-seeded account and see the generated forms and watch out the functionalities implemented!
 
 ## Architecture & Database
 
