@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.database import Base, engine
 from app.models import (Answer, Form, Question, QuestionOption,Response, User)
 from app.routers.forms import router as forms_router
+from app.routers.questions import router as questions_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -12,6 +13,7 @@ app = FastAPI(
 )
 
 app.include_router(forms_router)
+app.include_router(questions_router)
 
 @app.get("/api/health")
 def health_check():
