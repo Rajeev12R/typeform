@@ -5,6 +5,8 @@ import { FeatureCards } from './components/FeatureCards'
 import { IntelligentForms } from './components/IntelligentForms'
 import { FeaturesGrid } from './components/FeaturesGrid'
 import { GrowthFlow } from './components/GrowthFlow'
+import { PreFooter } from './components/PreFooter'
+import { Footer } from './components/Footer'
 
 export default function Home() {
   return (
@@ -15,6 +17,8 @@ export default function Home() {
       <IntelligentForms />
       <FeaturesGrid />
       <GrowthFlow />
+      <PreFooter />
+      <Footer />
     </main>
   )
 }
