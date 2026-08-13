@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Button } from "./Button";
 
 export const Hero = () => {
@@ -19,9 +20,11 @@ export const Hero = () => {
           research and manage the entire customer lifecycle. All in Typeform.
         </p>
         
-        <Button variant="primary" className="text-base px-8 py-3.5">
-          Get started—it's free
-        </Button>
+        <Link href="/login">
+          <Button variant="primary" className="text-base px-8 py-3.5">
+            Get started—it's free
+          </Button>
+        </Link>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Button } from "./Button";
 
 export const Navbar = () => {
@@ -37,9 +38,13 @@ export const Navbar = () => {
       </div>
 
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" className="text-sm">Log in</Button>
+        <Link href="/login">
+          <Button variant="ghost" className="text-sm">Log in</Button>
+        </Link>
         <Button variant="outline" className="text-sm font-normal border-gray-600 hover:bg-gray-800">Contact sales</Button>
-        <Button variant="primary" className="text-sm font-medium">Sign up</Button>
+        <Link href="/login">
+          <Button variant="primary" className="text-sm font-medium">Sign up</Button>
+        </Link>
       </div>
     </header>
   );
