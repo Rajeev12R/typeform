@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Badge } from "../components/Badge";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function LoginPage() {
@@ -11,7 +10,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
   const slides = [
     {
       subtitle: "Automate workflows",
@@ -32,7 +31,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      
+
       <header className="flex items-center justify-between px-8 py-6 w-full shrink-0">
         <Link href="/" className="flex items-center space-x-2 text-black cursor-pointer">
           <div className="flex items-center space-x-[0.75px]">
@@ -59,7 +58,7 @@ export default function LoginPage() {
       </header>
 
       <main className="grow flex flex-col md:flex-row w-full h-[calc(100vh-80px)]">
-        
+
         <div className="w-full md:w-1/2 flex flex-col px-8 overflow-y-auto">
           <div className="grow flex flex-col items-center justify-center max-w-sm mx-auto w-full py-12">
             <div className="w-full">
@@ -79,7 +78,7 @@ export default function LoginPage() {
                   <span className="font-medium text-gray-700 text-[15px]">Continue with Google</span>
                   <span className="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-500 uppercase">Coming soon</span>
                 </button>
-                
+
                 <button className="w-full flex items-center justify-center space-x-3 border border-gray-300 rounded-lg py-2.5 px-4 hover:bg-gray-50 transition-colors">
                   <svg className="w-5 h-5" viewBox="0 0 21 21">
                     <path fill="#f25022" d="M1 1h9v9H1z" />
@@ -92,7 +91,7 @@ export default function LoginPage() {
                 </button>
               </div>
 
-              <form 
+              <form
                 className="flex flex-col mb-4"
                 onSubmit={async (e) => {
                   e.preventDefault();
@@ -100,7 +99,7 @@ export default function LoginPage() {
                   setIsLoggingIn(true);
                   try {
                     await login(email);
-                    router.push("/");
+                    router.push("/forms");
                   } catch (err: any) {
                     alert(err.message || "Failed to log in");
                     setIsLoggingIn(false);
@@ -108,17 +107,17 @@ export default function LoginPage() {
                 }}
               >
                 <label className="text-[13px] text-gray-700 mb-1.5" htmlFor="email">Email</label>
-                <input 
-                  type="email" 
-                  id="email" 
+                <input
+                  type="email"
+                  id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email address"
                   className="w-full border text-gray-700 border-gray-300 rounded-lg py-2.5 px-3 focus:outline-none focus:border-black transition-colors placeholder:text-gray-400 mb-4 text-[15px]"
                   required
                 />
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={isLoggingIn}
                   className="w-full bg-[#191919] text-white rounded-lg py-3 font-medium text-[15px] hover:bg-black transition-colors disabled:opacity-70"
                 >
@@ -129,9 +128,9 @@ export default function LoginPage() {
               <div className="text-center mb-8">
                 <a href="#" className="text-[13px] text-gray-600 underline hover:text-black transition-colors">Log in with SSO</a>
               </div>
-              
+
               <div className="h-px w-full bg-gray-100 mb-8"></div>
-              
+
               <p className="text-center text-[13px] text-gray-500">
                 Don't have an account? <a href="#" className="text-black underline font-medium hover:text-gray-700">Sign up</a>
               </p>
@@ -144,42 +143,41 @@ export default function LoginPage() {
             <h2 className="text-[22px] leading-snug font-medium text-center mb-12 text-white/90">
               Continue exploring powerful features<br />that make data collection effortless
             </h2>
-            
+
             <div className="w-full grow max-h-100 border border-white/10 rounded-2xl bg-[#1e1720] shadow-2xl overflow-hidden relative flex flex-col p-8 transition-opacity duration-500">
               <div className="text-center mb-8 relative z-20">
                 <p className="text-sm text-gray-300 mb-2">{slides[currentSlide].subtitle}</p>
                 <h3 className="text-xl font-medium">{slides[currentSlide].title}</h3>
               </div>
-              
+
               <div className="absolute bottom-0 left-0 w-full h-[70%] bg-linear-to-t from-purple-500/40 to-transparent"></div>
-              
+
               <div className="relative z-20 grow flex items-center justify-center w-full min-h-62.5">
                 {slides.map((slide, index) => (
                   <img
                     key={index}
                     src={slide.image}
                     alt={slide.title}
-                    className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${
-                      currentSlide === index ? "opacity-100" : "opacity-0 pointer-events-none"
-                    }`}
+                    className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${currentSlide === index ? "opacity-100" : "opacity-0 pointer-events-none"
+                      }`}
                   />
                 ))}
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-4 mt-8">
-              <button 
+              <button
                 onClick={() => setCurrentSlide(prev => (prev === 0 ? slides.length - 1 : prev - 1))}
                 className="p-1 text-gray-500 hover:text-white transition-colors"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+                  <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" />
                 </svg>
               </button>
-              
+
               <button className="p-1 text-white transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"/>
+                  <path d="M8 5v14l11-7z" />
                 </svg>
               </button>
 
@@ -188,19 +186,18 @@ export default function LoginPage() {
                   <button
                     key={index}
                     onClick={() => setCurrentSlide(index)}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      currentSlide === index ? "bg-white" : "bg-gray-600 hover:bg-gray-400"
-                    }`}
+                    className={`w-2 h-2 rounded-full transition-colors ${currentSlide === index ? "bg-white" : "bg-gray-600 hover:bg-gray-400"
+                      }`}
                   />
                 ))}
               </div>
 
-              <button 
+              <button
                 onClick={() => setCurrentSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1))}
                 className="p-1 text-gray-500 hover:text-white transition-colors"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                 </svg>
               </button>
             </div>
