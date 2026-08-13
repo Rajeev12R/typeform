@@ -1,1 +1,5 @@
 __pycache__
+*.db
+sessions.json
+venv/
+.env
