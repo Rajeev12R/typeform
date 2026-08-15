@@ -25,7 +25,7 @@ def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User not found",
+            detail="User not found. Please use - user@gmail.com",
         )
         
     return user

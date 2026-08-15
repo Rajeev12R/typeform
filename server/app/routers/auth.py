@@ -29,7 +29,7 @@ def login(login_data: LoginRequest, response: Response, db: Session = Depends(ge
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found",
+            detail="User not found. Please use - user@gmail.com",
         )
         
     session_id = create_session(user.id)
